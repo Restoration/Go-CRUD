@@ -6,11 +6,11 @@ import (
   "net/http"
   "text/template"
 
-  _ "github.com/go-sql-driver/msql"
+  _ "github.com/go-sql-driver/mysql"
 )
 
 type Employee struct {
-  Id   Int
+  Id   int
   Name string
   City string
 }
@@ -27,11 +27,11 @@ func dbConn() (db *sql.DB) {
   return db
 }
 
-var tmpl = template.Must(tempkate.ParseGlob("from/*"))
+var tmpl = template.Must(template.ParseGlob("form/*"))
 
 func Index(w http.ResponseWriter, r *http.Request){
-  db := dbCoon()
-  selDb, err := db.Query("SELECT * FROM Employee ORDER BY id DESC")
+  db := dbConn()
+  selDB, err := db.Query("SELECT * FROM employee ORDER BY id DESC")
   if err != nil {
     panic(err.Error())
   }
@@ -56,7 +56,7 @@ func Index(w http.ResponseWriter, r *http.Request){
 func Show(w http.ResponseWriter, r *http.Request){
   db := dbConn()
   nId := r.URL.Query().Get("id")
-  selDB, err := db.Query("SELECT * FROM Employee WHERE id=?",nId)
+  selDB, err := db.Query("SELECT * FROM employee WHERE id=?",nId)
   if err != nil {
     panic(err.Error())
   }
